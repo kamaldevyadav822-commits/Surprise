@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  min-height:100vh;
+  background:radial-gradient(circle at top,#1f2937,#000);
+  color:#fff;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  overflow:hidden;
+}
+
+/* ================= SCREENS ================= */
+.screen{
+  position:absolute;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+}
+.screen.active{display:flex}
+
+/* ================= BASIC CARD ================= */
+.card{
+  max-width:420px;
+  width:100%;
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(14px);
+  border-radius:26px;
+  padding:26px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,.6);
+}
+img.hero{width:160px;margin:0 auto 14px}
+
+/* ================= BUTTON ================= */
+button{
+  margin-top:18px;
+  padding:10px 26px;
+  border-radius:999px;
+  border:none;
+  background:rgba(255,255,255,.25);
+  color:white;
+  cursor:pointer;
+}
+button:active{transform:scale(.95)}
+
+/* ================= HEART LOADER ================= */
+.loader-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(6px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+.loader-overlay.show{opacity:1;pointer-events:auto}
+.loader{
+  position:relative;
+  width:40px;height:60px;
+  animation:heartBeat 1.2s infinite cubic-bezier(0.215,0.61,0.355,1);
+}
+.loader:before,
+.loader:after{
+  content:"";
+  background:#ff3d00;
+  width:40px;height:60px;
+  border-radius:50px 50px 0 0;
+  position:absolute;left:0;bottom:0;
+  transform:rotate(45deg);
+  transform-origin:50% 68%;
+}
+.loader:after{transform:rotate(-45deg)}
+@keyframes heartBeat{
+  0%{transform:scale(.95)}
+  50%{transform:scale(1.1)}
+  100%{transform:scale(.95)}
+}
+
+/* ================= SHAYARI ================= */
+.shayari-card{
+  width:90%;
+  max-width:520px;
+  min-height:60vh;
+  background:#07182E;
+  border-radius:24px;
+  padding:30px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+.shayari-text{
+  font-size:1.4rem;
+  line-height:1.8;
+}
+
+/* ================= VIDEO ================= */
+.video-wrap{
+  width:100%;
+  max-width:900px;
+  height:90vh;
+  background:rgba(255,255,255,.08);
+  backdrop-filter:blur(12px);
+  border-radius:26px;
+  overflow:hidden;
+  position:relative;
+}
+video{width:100%;height:100%;object-fit:cover}
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+}
+.overlay.show{opacity:1;pointer-events:auto}
+
+/* ================= FINAL CAROUSEL ================= */
+.carousel-card{
+  width:96vw;
+  max-width:900px;
+  height:85vh;
+  border-radius:28px;
+  overflow:hidden;
+}
+.carousel-track{
+  display:flex;
+  height:100%;
+  transition:transform .8s ease;
+}
+.slide{
+  min-width:100%;
+  height:100%;
+}
+.slide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+/* ================= CHEERS ================= */
+.cheer{
+  position:fixed;
+  bottom:-20px;
+  font-size:1.6rem;
+  animation:floatUp 3s ease-in forwards;
+}
+@keyframes floatUp{
+  to{transform:translateY(-120vh);opacity:0}
+}
+  .fixed-footer{
+  position:fixed;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:'Dancing Script', cursive; /* 👈 ONLY footer */
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.5px;
+  opacity:.75;
+  z-index:1000;
+  pointer-events:none;
+  user-select:none;
+  text-shadow:0 0 12px rgba(255,80,120,.35);
+}
+  
+</style>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- 🔊 BACKGROUND MUSIC (FINAL ONLY) -->
+<audio id="bgMusic" loop preload="auto">
+  <!-- 🔁 REPLACE THIS WITH YOUR MP3 URL -->
+  <source src="https://res.cloudinary.com/ds2dyzmq7/video/upload/v1767208575/dekha-hazaro-dafaa-apko-ringtone-best-ringtone-arijit-singh-new-hindi-song-2021-128-ytshorts.savetube.me_luw7tb.mp3" type="audio/mpeg">
+</audio>
+
+<div class="loader-overlay" id="loader">
+  <span class="loader"></span>
+</div>
+
+<!-- SCREEN 1 -->
+<section id="s1" class="screen active">
+  <div class="card">
+    <img class="hero" src="https://res.cloudinary.com/ds2dyzmq7/image/upload/v1767197136/Cute_cat_qjxu2k.png">
+    <p>Hey… My Special One , This is only for you.<br>Will you see it?</p>
+    <button onclick="go('shayari')">Yes</button>
+    <button onclick="go('s2')">No</button>
+  </div>
+</section>
+
+<!-- SCREEN 2 -->
+<section id="s2" class="screen">
+  <div class="card">
+    <img class="hero" src="https://media.tenor.com/11aOnUuu_GkAAAAj/catcoin-crypto.gif">
+    <p>HOW DARE YOUUU 😤</p>
+    <button onclick="go('s1')">Back</button>
+  </div>
+</section>
+
+<!-- SHAYARI -->
+<section id="shayari" class="screen">
+  <div class="shayari-card">
+    <div class="shayari-text" id="shayariText"></div>
+    <button id="shayariNext" onclick="nextShayari()" style="display:none">Next</button>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos" class="screen">
+  <div class="video-wrap">
+    <video id="video" playsinline></video>
+    <div class="overlay" id="overlay">
+      <button onclick="nextVideo()">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL -->
+<section id="final" class="screen">
+  <div class="carousel-card">
+    <div class="carousel-track" id="track">
+      <div class="slide"><img src="https://res.cloudinary.com/ds2dyzmq7/image/upload/v1767205093/wa-918085062373-dp_kvfq5s.jpg"></div>
+      <div class="slide"><img src="https://res.cloudinary.com/ds2dyzmq7/image/upload/v1767205093/IMG_20250924_171217_247_emr4jv.jpg"></div>
+      <div class="slide"><img src="https://res.cloudinary.com/ds2dyzmq7/image/upload/v1767205096/IMG_20251220_141252_duf7mu.jpg"></div>
+      <div class="slide"><img src="https://res.cloudinary.com/ds2dyzmq7/image/upload/v1767205096/1759114128449_dxeicd.jpg"></div>
+      <div class="slide"><img src="https://res.cloudinary.com/ds2dyzmq7/image/upload/v1767208847/IMG_20251220_131638_tcehwf.jpg"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+const loader=document.getElementById("loader");
+const bgMusic=document.getElementById("bgMusic");
+
+function showLoader(cb){
+  loader.classList.add("show");
+  setTimeout(()=>{
+    loader.classList.remove("show");
+    cb && cb();
+  },2000);
+}
+
+let current="s1";
+function go(id){
+  showLoader(()=>{
+    document.getElementById(current).classList.remove("active");
+    document.getElementById(id).classList.add("active");
+    current=id;
+    if(id==="shayari") startShayari();
+  });
+}
+
+/* ===== SHAYARI ===== */
+const shayari=[
+ "Happy New Year 🎉, my favorite person 🥰. You quietly became the best part of my year, my comfort, and the thought I return to without effort. I hope this year gives you peace, confidence, and moments that remind you how deeply you matter's for Me",
+"Cutieee दानव को कहते हैं असुर दानव को कहते हैं असुर 🙂!!",
+"क्या आपके पापा बनेंगे मेरे ससुर 🤗🤭",
+ "झील में होती है मछली आसमान में होते हैं तारे ⭐⭐",
+ " Ajii झील में होती है मछली आसमान में होते हैं तारे ⭐⭐",
+ "Cutiee मुझसे शादी कर लो बच्चे होंगे हमारे प्यारे-प्यारे 😊🤭",
+  "Jhoothi '  मिल्क को कहते हैं दूध, और CURD को कहते हैं दही ",
+  "Milk को कहते हैं दूध, और CURD को कहते हैं दही  ",
+  " तुम्हारे दिल  💗  में कहीं मैं तो नहीं? 😊😌",
+"Career की टेंशन ले रहा था, तभी याद आया कि 😌",
+" मेरी तो एक pglii wife भी होगी दोनों मिलकर कष्ट उठाएँगे‌  😊😇"
+];
+let si=0;
+const shText=document.getElementById("shayariText");
+const shBtn=document.getElementById("shayariNext");
+
+function typeText(text){
+  shText.textContent="";
+  shBtn.style.display="none";
+  let i=0;
+  const t=setInterval(()=>{
+    shText.textContent+=text[i++];
+    if(i>=text.length){
+      clearInterval(t);
+      shBtn.style.display="inline-block";
+    }
+  },80);
+}
+function startShayari(){si=0;typeText(shayari[si])}
+function nextShayari(){
+  si++;
+  if(si<shayari.length){
+    typeText(shayari[si]);
+  }else{
+    go("videos");
+    loadVideo(true);
+  }
+}
+
+/* ===== VIDEOS ===== */
+const vids=[
+ "https://res.cloudinary.com/ds2dyzmq7/video/upload/We_checked_twice._Still_no_brain_detected._vcrnwu.mp4",
+ "https://res.cloudinary.com/ds2dyzmq7/video/upload/accurate_%EF%B8%8F_yhgm7t.mp4",
+ "https://res.cloudinary.com/ds2dyzmq7/video/upload/VID_20251231_093022_939_bsl_pcbvwv.mp4",
+    "https://res.cloudinary.com/ds2dyzmq7/video/upload/Tell_Your_Crush_to_Take_Notes_%EF%B8%8F_teddybear_cute_kawaii_love_crush_mstpbn.mp4",
+];
+let vi=0;
+const video=document.getElementById("video");
+const overlay=document.getElementById("overlay");
+
+function loadVideo(first=false){
+  overlay.classList.remove("show");
+  video.src=vids[vi];
+  video.muted=first;
+  video.play().catch(()=>{});
+}
+video.onended=()=>overlay.classList.add("show");
+
+function nextVideo(){
+  showLoader(()=>{
+    vi++;
+    if(vi>=vids.length){
+      go("final");
+      startCarousel();
+      startCheers();
+      bgMusic.volume=0.4;
+      bgMusic.play().catch(()=>{});
+      return;
+    }
+    video.muted=false;
+    loadVideo();
+  });
+}
+
+/* ===== SEAMLESS AUTO CAROUSEL ===== */
+let idx=0;
+const track=document.getElementById("track");
+let slides=[...track.children];
+const firstClone=slides[0].cloneNode(true);
+track.appendChild(firstClone);
+slides=[...track.children];
+
+function updateCarousel(animate=true){
+  track.style.transition=animate?".8s ease":"none";
+  track.style.transform=`translateX(-${idx*100}%)`;
+}
+
+function startCarousel(){
+  idx=0;
+  updateCarousel(false);
+  setInterval(()=>{
+    idx++;
+    updateCarousel(true);
+    if(idx===slides.length-1){
+      setTimeout(()=>{
+        idx=0;
+        updateCarousel(false);
+      },800);
+    }
+  },2000);
+}
+
+/* ===== CHEERS ===== */
+function startCheers(){
+  setInterval(()=>{
+    const d=document.createElement("div");
+    d.className="cheer";
+    d.innerText=["❤️","✨","🧿","💖","🥰","🧿"][Math.floor(Math.random()*4)];
+    d.style.left=Math.random()*100+"vw";
+    document.body.appendChild(d);
+    setTimeout(()=>d.remove(),3000);
+  },300);
+}
+</script>
+<footer class="fixed-footer">
+  With 💖 by Kamal
+</footer>
+</body>
+</html>
